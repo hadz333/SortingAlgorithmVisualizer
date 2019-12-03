@@ -5,18 +5,27 @@
 </head>
 <body>
   <center>
-  <div id="sliders">
-    <p>Number of rectangles:</p>
-    <input type="range" min="5" max="30" value="5" id="rectangleSlider">
-    <p>Sort speed:</p>
-    <input type="range" min="1" max="5" value="2" id="speedSlider">
-  </div>
-  
-  	<canvas id="myCanvas" width="600px" height="600px" style="border:1px solid #d3d3d3;">
+  	<div id="sliders">
+	    <p>Number of rectangles:</p>
+	    <input type="range" min="5" max="30" value="5" id="rectangleSlider" onchange="updateSlider(this.value)">
+	    <p>Sort speed:</p>
+	    <input type="range" min="1" max="5" value="2" id="speedSlider">
+  	</div>
+
+  	<p>Please select your sorting algorithm:</p>
+    <input type="radio" name="algorithm" value="merge" id="merge"> Merge Sort<br>
+    <input type="radio" name="algorithm" value="quick" id="quick"> Quick Sort<br>
+    <input type="radio" name="algorithm" value="heap" id="heap"> Heap Sort<br> 
+    <input type="radio" name="algorithm" value="bubble" id="bubble"> Bubble Sort<br><br>
+    <button onclick="chooseSort()">Sort</button>
+    <br><br><br>
+
+  	<canvas id="myCanvas" width="600px" height="300px" style="border:1px solid #d3d3d3;">
     Your browser does not support the HTML5 canvas tag.</canvas>
+	<script src="rectangles.js"></script>
   </center>
 
-  <script type="text/javascript" src="rectangles.js"></script>
+  
 
 </body>
 </html>
