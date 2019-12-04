@@ -5,12 +5,19 @@ ctx.fillStyle = "#6395e6";
 var rectangleSlider = document.getElementById("rectangleSlider");
 var speedSlider = document.getElementById("speedSlider");
 
+var speed = speedSlider.value;
+
 var values = [];
 var numRectangles = 5;
 generateRectangles(numRectangles);
 
 function updateSlider(newValue) {
 	generateRectangles(newValue);
+}
+
+function updateSpeed(newValue) {
+	speed = newValue;
+	console.log(speed);
 }
 
 
@@ -88,7 +95,7 @@ async function bubbleSort() {
 				values[j] = values[j + 1];
 				values[j + 1] = temp;
 				swapRectangles(j, j + 1);
-				await sleep(500);
+				await sleep(1000 / speed);
 			}
 		}
 	}
