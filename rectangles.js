@@ -13,11 +13,12 @@ generateRectangles(numRectangles);
 
 function updateSlider(newValue) {
 	generateRectangles(newValue);
+	console.log("New rectangle amount: ", newValue);
 }
 
 function updateSpeed(newValue) {
 	speed = newValue;
-	console.log(speed);
+	console.log("speed changed to:", speed);
 }
 
 
@@ -59,6 +60,25 @@ function swapRectangles(i, j) {
 	//ctx.stroke();
 }
 
+function colorRectangles(i, j, color) {
+	var x1 = 17 * i;
+	var x2 = 17 * j;
+	ctx.fillStyle = color;
+	ctx.fillRect(x1, 0, 15, values[i]);
+	ctx.fillRect(x2, 0, 15, values[j]);
+}
+
+// reset rectangles to blue color
+function resetRectangles(i, j) {
+	var x1 = 17 * i;
+	var x2 = 17 * j;
+	ctx.clearRect(x1, 0, 15, c.height);
+	ctx.clearRect(x2, 0, 15, c.height);
+	ctx.fillStyle = "#6395e6";
+	ctx.fillRect(x1, 0, 15, values[i]);
+	ctx.fillRect(x2, 0, 15, values[j]);
+}
+
 // chooses the kind of sort to run
 function chooseSort() {
 	if (document.getElementById('merge').checked) {
@@ -89,14 +109,22 @@ async function bubbleSort() {
 	var n = values.length;
 	for (let i = 0; i < n - 1; i++) {
 		for (let j = 0; j < n - i - 1; j++) {
+			// green shows the two rectangles are being compared
+			colorRectangles(j, j + 1, "#6fed4c");
+			await sleep(1000 / speed);
 			if (values[j] > values[j + 1]) {
+				// make rectangles red
+				colorRectangles(j, j + 1, "#fc3b19");
 				// swap the two values
 				let temp = values[j];
 				values[j] = values[j + 1];
 				values[j + 1] = temp;
+				
+				await sleep(1000 / speed);
 				swapRectangles(j, j + 1);
 				await sleep(1000 / speed);
 			}
+			resetRectangles(j, j + 1);
 		}
 	}
 }
