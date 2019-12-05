@@ -84,7 +84,8 @@ function chooseSort() {
 	if (document.getElementById('merge').checked) {
   		mergeSort();
 	} else if (document.getElementById('quick').checked) {
-  		quickSort();
+  		quickSort(0, values.length - 1);
+  		redraw();
 	} else if (document.getElementById('heap').checked) {
 		heapSort();
 	} else if (document.getElementById('bubble').checked) {
@@ -96,8 +97,104 @@ function mergeSort() {
 	console.log("merge");
 }
 
-function quickSort() {
+function quickSort(low, high) {
 	console.log("quick");
+	stack = [];
+	stack.push(0);
+	stack.push(values.length);
+
+	while (stack.length > 0) {
+		var end = stack.pop();
+		var start = stack.pop();
+		if (end - start < 2) {
+			continue;
+		}
+		var p = start + ((end - start) / 2);
+		p = partition(p, start, end);
+		stack.push(p + 1);
+		stack.push(end);
+		stack.push(start);
+		stack.push(p);
+	}
+
+
+	/* if (low < high) {
+		var pi = partition(low, high);
+		quickSort(low, pi);
+		quickSort(pi + 1, high);
+	} */
+}
+
+function partition(position, start, end) {
+	var l = start;
+	var h = end;
+	var pivot = values[position];
+	let temp = values[position];
+	values[position] = values[end - 1];
+	values[end - 1] = temp;
+
+	while (l < h) {
+		if (values[l] < pivot) {
+			l++;
+		} else if (values[h] >= pivot) {
+			h--;
+		} else {
+			temp = values[l];
+			values[l] = values[h];
+			values[h] = temp;
+		}
+	}
+	var idx = h;
+	if (values[h] < pivot) {
+		idx++;
+	}
+	temp = values[end - 1];
+	values[end - 1] = values[idx];
+	values[idx] = temp;
+	return idx;
+}
+
+async function partition(low, high) {
+	/*
+	var pivot = values[low + (high - low) / 2];
+
+	var pivot = low + (high - low) / 2;
+
+	while (low < high) {
+		// green shows the two rectangles are being compared
+		colorRectangles(low, high, "#6fed4c");
+		await sleep(1000 / speed);
+		if (values[low] > values[high]) {
+			// make rectangles red
+			colorRectangles(low, high, "#fc3b19");
+			await sleep(1000 / speed);
+			let temp = values[low];
+			values[low] = values[high];
+			values[high] = temp;
+			swapRectangles(low,  high);
+			await sleep(1000 / speed);
+		}
+		resetRectangles(low, high);
+		await sleep(1000 / speed);
+		low++;
+		high--;
+	}
+	return low; */
+	/*var i = low - 1;
+	var j = high;
+	for (let j = low; j < pivot; j++) {
+		if (values[j] <= pivot) {
+			i++;
+			let temp = values[i];
+			values[i] = values[j];
+			values[j] = temp;
+		}
+	}
+	let temp = values[i + 1];
+	values[i + 1] = values[high];
+	values[high] = temp;
+
+	return i + 1; */
 }
 
 function heapSort() {
@@ -119,12 +216,12 @@ async function bubbleSort() {
 				let temp = values[j];
 				values[j] = values[j + 1];
 				values[j + 1] = temp;
-				
 				await sleep(1000 / speed);
 				swapRectangles(j, j + 1);
 				await sleep(1000 / speed);
 			}
 			resetRectangles(j, j + 1);
+			await sleep(1000 / speed);
 		}
 	}
 }
