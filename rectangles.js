@@ -97,104 +97,31 @@ function mergeSort() {
 	console.log("merge");
 }
 
-function quickSort(low, high) {
+function quickSort(start, end) {
 	console.log("quick");
-	stack = [];
-	stack.push(0);
-	stack.push(values.length);
-
-	while (stack.length > 0) {
-		var end = stack.pop();
-		var start = stack.pop();
-		if (end - start < 2) {
-			continue;
-		}
-		var p = start + ((end - start) / 2);
-		p = partition(p, start, end);
-		stack.push(p + 1);
-		stack.push(end);
-		stack.push(start);
-		stack.push(p);
+	if (start < end) {
+		var newPivotIndex = partition(start, end);
+		quickSort(start, newPivotIndex - 1);
+		quickSort(newPivotIndex + 1, end);
 	}
-
-
-	/* if (low < high) {
-		var pi = partition(low, high);
-		quickSort(low, pi);
-		quickSort(pi + 1, high);
-	} */
 }
 
-function partition(position, start, end) {
-	var l = start;
-	var h = end;
-	var pivot = values[position];
-	let temp = values[position];
-	values[position] = values[end - 1];
-	values[end - 1] = temp;
-
-	while (l < h) {
-		if (values[l] < pivot) {
-			l++;
-		} else if (values[h] >= pivot) {
-			h--;
-		} else {
-			temp = values[l];
-			values[l] = values[h];
-			values[h] = temp;
-		}
-	}
-	var idx = h;
-	if (values[h] < pivot) {
-		idx++;
-	}
-	temp = values[end - 1];
-	values[end - 1] = values[idx];
-	values[idx] = temp;
-	return idx;
-}
-
-async function partition(low, high) {
-	/*
-	var pivot = values[low + (high - low) / 2];
-
-	var pivot = low + (high - low) / 2;
-
-	while (low < high) {
-		// green shows the two rectangles are being compared
-		colorRectangles(low, high, "#6fed4c");
-		await sleep(1000 / speed);
-		if (values[low] > values[high]) {
-			// make rectangles red
-			colorRectangles(low, high, "#fc3b19");
-			await sleep(1000 / speed);
-			let temp = values[low];
-			values[low] = values[high];
-			values[high] = temp;
-			swapRectangles(low,  high);
-			await sleep(1000 / speed);
-		}
-		resetRectangles(low, high);
-		await sleep(1000 / speed);
-		low++;
-		high--;
-	}
-	return low; */
-	/*var i = low - 1;
-	var j = high;
-	for (let j = low; j < pivot; j++) {
-		if (values[j] <= pivot) {
-			i++;
+function partition(start, end) {
+	// get rightmost element as your pivot
+	var pivot = values[end];
+	var pIndex = start;
+	for (let i = start; i < end; i++) {
+		if (values[i] <= pivot) {
 			let temp = values[i];
-			values[i] = values[j];
-			values[j] = temp;
+			values[i] = values[pIndex];
+			values[pIndex] = temp;
+			pIndex = pIndex + 1;
 		}
 	}
-	let temp = values[i + 1];
-	values[i + 1] = values[high];
-	values[high] = temp;
-
-	return i + 1; */
+	let temp = values[end];
+	values[end] = values[pIndex];
+	values[pIndex] = temp;
+	return pIndex;
 }
 
 function heapSort() {
