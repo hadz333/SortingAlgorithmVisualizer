@@ -8,7 +8,7 @@ var speedSlider = document.getElementById("speedSlider");
 var speed = speedSlider.value;
 
 var values = [];
-var numRectangles = 5;
+var numRectangles = 10;
 generateRectangles(numRectangles);
 
 function updateSlider(newValue) {
@@ -82,7 +82,10 @@ function resetRectangles(i, j) {
 // chooses the kind of sort to run
 function chooseSort() {
 	if (document.getElementById('merge').checked) {
-  		mergeSort();
+  		/*let arr = mergeSort(values);
+  		values = arr; */
+  		mergeSort(values.length);
+  		redraw();
 	} else if (document.getElementById('quick').checked) {
   		quickSort(0, values.length - 1);
   		redraw();
@@ -93,12 +96,155 @@ function chooseSort() {
 	}
 }
 
-function mergeSort() {
-	console.log("merge");
+// iterative merge sort
+function mergeSort(n) 
+    { 
+          
+        // For current size of subarrays to 
+        // be merged curr_size varies from  
+        // 1 to n/2 
+        var curr_size;  
+                      
+        // For picking starting index of  
+        // left subarray to be merged 
+        var left_start; 
+                          
+          
+        // Merge subarrays in bottom up  
+        // manner. First merge subarrays  
+        // of size 1 to create sorted  
+        // subarrays of size 2, then merge 
+        // subarrays of size 2 to create  
+        // sorted subarrays of size 4, and 
+        // so on. 
+        for (curr_size = 1; curr_size <= n-1;  
+                      curr_size = 2*curr_size) 
+        { 
+              
+            // Pick starting point of different 
+            // subarrays of current size 
+            for (left_start = 0; left_start < n-1; 
+                        left_start += 2*curr_size) 
+            { 
+                // Find ending point of left  
+                // subarray. mid+1 is starting  
+                // point of right 
+                var mid = Math.min(left_start + curr_size - 1, n-1); 
+          
+                var right_end = Math.min(left_start  
+                             + 2*curr_size - 1, n-1); 
+          
+                // Merge Subarrays arr[left_start...mid] 
+                // & arr[mid+1...right_end] 
+                merge(left_start, mid, right_end); 
+            } 
+        } 
+    } 
+      
+    /* Function to merge the two haves arr[l..m] and 
+    arr[m+1..r] of array arr[] */
+function merge(l, m, r) 
+    { 
+        //var i, j, k; 
+        var n1 = m - l + 1; 
+        var n2 = r - m; 
+      
+        /* create temp arrays */
+        L = []; 
+        R = []; 
+      
+        /* Copy data to temp arrays L[] 
+        and R[] */
+        for (i = 0; i < n1; i++) 
+            L[i] = values[l + i]; 
+        for (j = 0; j < n2; j++) 
+            R[j] = values[m + 1+ j]; 
+      
+        /* Merge the temp arrays back into 
+        arr[l..r]*/
+        var i = 0; 
+        var j = 0; 
+        var k = l; 
+        while (i < n1 && j < n2) 
+        { 
+            if (L[i] <= R[j]) 
+            { 
+                values[k] = L[i]; 
+                i++; 
+            } 
+            else
+            { 
+                values[k] = R[j]; 
+                j++; 
+            } 
+            k++; 
+        } 
+      
+        /* Copy the remaining elements of  
+        L[], if there are any */
+        while (i < n1) 
+        { 
+            values[k] = L[i]; 
+            i++; 
+            k++; 
+        } 
+      
+        /* Copy the remaining elements of 
+        R[], if there are any */
+        while (j < n2) 
+        { 
+            values[k] = R[j]; 
+            j++; 
+            k++; 
+        } 
+    } 
+
+// (recursive)
+/*
+function mergeSort (unsortedArray) {
+  // No need to sort the array if the array only has one element or empty
+  if (unsortedArray.length <= 1) {
+    return unsortedArray;
+  }
+  // In order to divide the array in half, we need to figure out the middle
+  const middle = Math.floor(unsortedArray.length / 2);
+
+  // This is where we will be dividing the array into left and right
+  const left = unsortedArray.slice(0, middle);
+  const right = unsortedArray.slice(middle);
+
+  // Using recursion to combine the left and right
+  return merge(
+    mergeSort(left), mergeSort(right)
+  );
 }
 
+
+
+// Merge the two arrays: left and right
+function merge(left, right) {
+  let resultArray = [], leftIndex = 0, rightIndex = 0;
+
+  // We will concatenate values into the resultArray in order
+  while (leftIndex < left.length && rightIndex < right.length) {
+    if (left[leftIndex] < right[rightIndex]) {
+      resultArray.push(left[leftIndex]);
+      leftIndex++; // move left array cursor
+    } else {
+      resultArray.push(right[rightIndex]);
+      rightIndex++; // move right array cursor
+    }
+  }
+
+  // We need to concat here because there will be one element remaining
+  // from either left OR the right
+  return resultArray
+          .concat(left.slice(leftIndex))
+          .concat(right.slice(rightIndex));
+}
+*/
+
 function quickSort(start, end) {
-	console.log("quick");
 	if (start < end) {
 		var newPivotIndex = partition(start, end);
 		quickSort(start, newPivotIndex - 1);
@@ -111,6 +257,7 @@ function partition(start, end) {
 	var pivot = values[end];
 	var pIndex = start;
 	for (let i = start; i < end; i++) {
+		
 		if (values[i] <= pivot) {
 			let temp = values[i];
 			values[i] = values[pIndex];
@@ -129,7 +276,6 @@ function heapSort() {
 }
 
 async function bubbleSort() {
-	console.log("bubble");
 	var n = values.length;
 	for (let i = 0; i < n - 1; i++) {
 		for (let j = 0; j < n - i - 1; j++) {
