@@ -143,8 +143,8 @@ function mergeSort(n)
       
     /* Function to merge the two haves arr[l..m] and 
     arr[m+1..r] of array arr[] */
-function merge(l, m, r) 
-    { 
+async function merge(l, m, r) 
+    {
         //var i, j, k; 
         var n1 = m - l + 1; 
         var n2 = r - m; 
@@ -177,7 +177,7 @@ function merge(l, m, r)
                 values[k] = R[j]; 
                 j++; 
             } 
-            k++; 
+            k++;
         } 
       
         /* Copy the remaining elements of  
@@ -244,12 +244,68 @@ function merge(left, right) {
 }
 */
 
+// quick sort (recursive)
+/*
 function quickSort(start, end) {
 	if (start < end) {
 		var newPivotIndex = partition(start, end);
 		quickSort(start, newPivotIndex - 1);
 		quickSort(newPivotIndex + 1, end);
 	}
+} */
+
+// iterative version of quicksort
+function quickSort(start, end) {
+	var initialEnd = end;
+	var newPivotIndex;
+	while (start < end) {
+		newPivotIndex = partition(start, end);
+		end = newPivotIndex - 1;
+	}
+	end = initialEnd;
+
+	while (start < end) {
+		newPivotIndex = partition(start, end);
+		start = newPivotIndex + 1;
+	}
+
+
+	/*
+	// Create an auxiliary stack 
+    stack = []; 
+
+    // initialize top of stack 
+    var top = -1; 
+
+    // push initial values of start and height to stack 
+    stack[++top] = start; 
+    stack[++top] = end; 
+
+    // Keep popping from stack while is not empty 
+    while (top >= 0) { 
+        // Pop h and l 
+        start = stack[top--]; 
+        end = stack[top--]; 
+
+        // Set pivot element at its correct position 
+        // in sorted array 
+        let p = partition(values, start, end); 
+
+        // If there are elements on left side of pivot, 
+        // then push left side to stack 
+        if (p - 1 > start) { 
+            stack[++top] = start; 
+            stack[++top] = p - 1; 
+        } 
+
+        // If there are elements on right side of pivot, 
+        // then push right side to stack 
+        if (p + 1 < end) { 
+            stack[++top] = p + 1; 
+            stack[++top] = end; 
+        } 
+    } 
+    */
 }
 
 function partition(start, end) {
