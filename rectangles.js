@@ -89,8 +89,8 @@ function chooseSort() {
 	} else if (document.getElementById('quick').checked) {
   		quickSort(0, values.length - 1);
   		redraw();
-	} else if (document.getElementById('heap').checked) {
-		heapSort();
+	} else if (document.getElementById('insertion').checked) {
+		insertionSort();
 	} else if (document.getElementById('bubble').checked) {
 		bubbleSort();
 	}
@@ -338,8 +338,8 @@ function partition(start, end) {
 	return pIndex;
 }
 
-function heapSort() {
-	console.log("heap");
+function insertionSort() {
+	console.log("insertion");
 }
 
 async function bubbleSort() {
