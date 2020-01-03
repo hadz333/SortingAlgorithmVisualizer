@@ -174,7 +174,7 @@ async function merge(l, m, r)
             } 
             else
             { 
-                values[k] = R[j]; 
+                values[k] = R[j];
                 j++; 
             } 
             k++;
@@ -245,30 +245,39 @@ function merge(left, right) {
 */
 
 // quick sort (recursive)
-/*
+
 function quickSort(start, end) {
 	if (start < end) {
 		var newPivotIndex = partition(start, end);
+		resetRectangles(start, end);
 		quickSort(start, newPivotIndex - 1);
 		quickSort(newPivotIndex + 1, end);
 	}
-} */
+} 
 
 
 // iterative version of quicksort
-function quickSort(start, end) {
-	var initialEnd = end;
-	var newPivotIndex;
-	while (start < end) {
-		newPivotIndex = partition(start, end);
-		end = newPivotIndex - 1;
-	}
-	end = initialEnd;
+//function quickSort(start, end) {
+	/*
 
-	while (start < end) {
-		newPivotIndex = partition(start, end);
-		start = newPivotIndex + 1;
+	var initialEnd = end;
+	var left_start = start;
+	var left_end = end;
+	var right_start = start;
+	var right_end = end;
+	while (left_start < left_end || right_start < right_end) {
+		if (left_start < left_end) {
+			var leftPivotIndex = partition(left_start, left_end);
+			left_end = leftPivotIndex - 1;
+			right_start = leftPivotIndex + 1;
+			var rightPivotIndex = partition(right_start, right_end);
+		}
+
+		
 	}
+
+	*/
+	
 
 
 	/*
@@ -307,14 +316,14 @@ function quickSort(start, end) {
         } 
     } 
     */
-}
+//}
 
 function partition(start, end) {
 	// get rightmost element as your pivot
+	
 	var pivot = values[end];
 	var pIndex = start;
 	for (let i = start; i < end; i++) {
-		
 		if (values[i] <= pivot) {
 			let temp = values[i];
 			values[i] = values[pIndex];
@@ -325,6 +334,7 @@ function partition(start, end) {
 	let temp = values[end];
 	values[end] = values[pIndex];
 	values[pIndex] = temp;
+
 	return pIndex;
 }
 
