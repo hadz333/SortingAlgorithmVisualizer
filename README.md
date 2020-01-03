@@ -1,2 +1,2 @@
-This program displays, step-by-step, the following sorting algorithms: Merge, Quick, Heap, and Bubble sort.
+This program displays the following sorting algorithms step by step: Merge, Quick, Insertion, and Bubble sort.
 
